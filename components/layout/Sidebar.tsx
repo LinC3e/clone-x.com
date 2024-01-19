@@ -4,6 +4,7 @@ import { FaUser } from 'react-icons/fa'
 
 // Components
 import SidebarLogo from './SidebarLogo';
+import SidebarItem from './Sidebaritem';
 
 const Sidebar = () => {
     
@@ -15,7 +16,7 @@ const Sidebar = () => {
         },
         {
             icon: BsBellFill,
-            lable: 'Notifications',
+            label: 'Notifications',
             href: '/notifications',
             auth: true,
         },
@@ -31,6 +32,14 @@ const Sidebar = () => {
             <div className="flex flex-col items-end">
                 <div className="space-y-2 lg:w-[230px]">
                     <SidebarLogo/>
+                    {items.map((item) => (
+                        <SidebarItem
+                            key={item.href}
+                            href={item.href} 
+                            icon={item.icon} 
+                            label={item.label}
+                        />
+                    ))}
                 </div>
             </div>
         </div>
