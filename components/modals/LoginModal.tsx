@@ -1,14 +1,25 @@
-import useLoginModel from "@/hooks/useModelLogin";
 import { useCallback, useState } from "react";
 import Input from "../Input";
 import Model from "../Model";
 
+import useRegisterModal from "@/hooks/useModalRegister";
+import useLoginModel from "@/hooks/useModelLogin";
+
 const LoginModal = () => {
     const LoginModal = useLoginModel();
+    const registerModal = useRegisterModal();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const onToggle = useCallback(() => {
+        if (isLoading) {
+            return
+        }
+        LoginModal.onClose();
+        registerModal.onOpen();
+    },[isLoading, registerModal, LoginModal]);
 
     const onSubmit = useCallback(async () => {
         try {
@@ -41,6 +52,21 @@ const LoginModal = () => {
         </div>
     )
 
+    const footerContent = (
+        <div className="text-neutral-400 text-center mt-4">
+            <p>First time in X.com? 
+                <span 
+                onClick={onToggle}
+                className="
+                text-white
+                cursor-pointer
+                hover:underline
+                "
+                > Create an account.</span>
+            </p>
+        </div>
+    );
+
     return (
         <div>
             <Model 
@@ -51,6 +77,7 @@ const LoginModal = () => {
             onClose={LoginModal.onClose}
             onSubmit={onSubmit}
             body={bodyContent}
+            footer={footerContent}
             />
         </div>
     );
